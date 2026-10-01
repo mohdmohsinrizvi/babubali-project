@@ -4,7 +4,7 @@ import type { ApiError } from '../types/project';
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL ?? '/api',
   headers: { 'Content-Type': 'application/json' },
-  timeout: 15000,
+  timeout: 90000,
 });
 
 export function toApiError(err: unknown): ApiError {

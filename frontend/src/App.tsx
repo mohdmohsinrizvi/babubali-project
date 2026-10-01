@@ -7,11 +7,15 @@ import NotFoundPage from './pages/NotFoundPage';
 import ProjectsPage from './pages/ProjectsPage';
 import ModulePlaceholderPage from './pages/workspace/ModulePlaceholderPage';
 import OverviewPage from './pages/workspace/OverviewPage';
+import PlansPage from './pages/workspace/PlansPage';
+import AiAnalysisPage from './pages/workspace/AiAnalysisPage';
+import { LanguageProvider } from './i18n/LanguageContext';
 import { OVERVIEW_SEGMENT, WORKSPACE_MODULES } from './types/workspace';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <LanguageProvider>
+      <BrowserRouter>
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomePage />} />
@@ -26,12 +30,13 @@ export default function App() {
             <Route
               key={module.segment}
               path={module.segment}
-              /* placeholder=false alone renders OverviewPage. When you implement a
-                 module, replace this branch with your own component in the SAME change
-                 that flips the flag in types/workspace.ts. */
               element={
                 module.placeholder ? (
                   <ModulePlaceholderPage title={module.title} description={module.description} />
+                ) : module.segment === 'plans' ? (
+                  <PlansPage />
+                ) : module.segment === 'analysis' ? (
+                  <AiAnalysisPage />
                 ) : (
                   <OverviewPage />
                 )
@@ -43,5 +48,6 @@ export default function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
+  </LanguageProvider>
   );
 }

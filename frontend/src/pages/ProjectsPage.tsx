@@ -7,12 +7,14 @@ import ErrorState from '../components/ErrorState';
 import LoadingState from '../components/LoadingState';
 import PageHeader from '../components/PageHeader';
 import StatusBadge from '../components/StatusBadge';
+import { useTranslation } from '../i18n/LanguageContext';
 import type { ApiError, ProjectResponse } from '../types/project';
 import './ProjectsPage.css';
 
-const areaFormat = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 });
-
 export default function ProjectsPage() {
+  const { t, language } = useTranslation();
+  const locale = language === 'ur' ? 'ur-PK' : language === 'hi' ? 'hi-IN' : language === 'ta' ? 'ta-IN' : language === 'te' ? 'te-IN' : 'en-IN';
+  const areaFormat = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 });
   const [projects, setProjects] = useState<ProjectResponse[] | null>(null);
   const [error, setError] = useState<ApiError | null>(null);
   const [loading, setLoading] = useState(true);
@@ -45,20 +47,20 @@ export default function ProjectsPage() {
   return (
     <div className="projects-page">
       <PageHeader
-        title="My Projects"
-        subtitle="All construction projects you have created."
+        title={t('nav.myProjects', 'My Projects')}
+        subtitle={t('nav.footerTagline', 'All construction projects recorded in SmartBuild India.')}
         actions={
           <Link className="btn btn--primary btn--normal" to="/projects/new">
-            New Project
+            {t('nav.newProject', 'New Project')}
           </Link>
         }
       />
 
-      {loading && <LoadingState title="Loading projects…" />}
+      {loading && <LoadingState title={t('common.loading', 'Loading projects…')} />}
 
       {!loading && error && (
         <ErrorState
-          title="Could not load projects"
+          title={t('workspace.couldNotLoad', 'Could not load projects')}
           message={error.message}
           onRetry={reload}
         />
@@ -66,11 +68,11 @@ export default function ProjectsPage() {
 
       {!loading && !error && projects && projects.length === 0 && (
         <EmptyState
-          title="No projects yet"
-          message="Create your first project to get started."
+          title={t('common.empty', 'No projects yet')}
+          message={t('workspace.tabDescriptions.overview', 'Create your first project to get started.')}
           action={
             <Link className="btn btn--primary btn--normal" to="/projects/new">
-              Create project
+              {t('nav.newProject', 'New Project')}
             </Link>
           }
         />
@@ -89,17 +91,17 @@ export default function ProjectsPage() {
               </p>
               <dl className="project-card__facts">
                 <div>
-                  <dt>Construction type</dt>
+                  <dt>{t('workspace.details.constructionType', 'Construction type')}</dt>
                   <dd>{project.constructionType}</dd>
                 </div>
                 <div>
-                  <dt>Built-up area</dt>
-                  <dd>{areaFormat.format(project.builtUpAreaSqFt)} sq ft</dd>
+                  <dt>{t('workspace.details.builtUpArea', 'Built-up area')}</dt>
+                  <dd>{areaFormat.format(project.builtUpAreaSqFt)} {t('common.sqFt', 'sq ft')}</dd>
                 </div>
                 <div>
-                  <dt>Floors</dt>
+                  <dt>{t('workspace.details.floors', 'Floors')}</dt>
                   <dd>
-                    {project.floorCount} {project.floorCount === 1 ? 'floor' : 'floors'}
+                    {project.floorCount} {t('workspace.details.floors', 'floors')}
                   </dd>
                 </div>
               </dl>
@@ -107,7 +109,7 @@ export default function ProjectsPage() {
                 className="btn btn--secondary btn--normal project-card__action"
                 to={`/projects/${project.id}/overview`}
               >
-                Open Project
+                {t('workspace.tabs.overview', 'Open Project')}
               </Link>
             </article>
           ))}

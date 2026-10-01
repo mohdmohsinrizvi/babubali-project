@@ -1,0 +1,41 @@
+.language-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  transition: border-color 0.15s ease;
+}
+
+.language-selector:hover {
+  border-color: var(--color-primary);
+}
+
+.language-selector__icon {
+  font-size: 1rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.language-selector__select {
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  outline: none;
+}
+
+.language-selector__select:focus-visible {
+  outline: 2px solid var(--color-primary);
+  border-radius: 4px;
+}
+
+[dir="rtl"] .language-selector {
+  direction: rtl;
+}

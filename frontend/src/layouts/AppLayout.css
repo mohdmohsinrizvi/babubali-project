@@ -37,8 +37,8 @@
 .app-header__right {
   display: flex;
   align-items: center;
-  gap: var(--space-5);
-  margin-left: auto;
+  gap: var(--space-4);
+  margin-inline-start: auto;
 }
 
 .app-nav {

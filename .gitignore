@@ -40,8 +40,8 @@ yarn-error.log*
 pnpm-debug.log*
 
 # ===== Runtime data (never commit) =====
-/uploads/
-/data/
+uploads/
+data/
 *.db
 *.sqlite
 *.sqlite3

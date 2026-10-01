@@ -3,8 +3,10 @@ import { Link, NavLink, Outlet, useParams } from 'react-router-dom';
 import { getProject } from '../api/projects';
 import { toApiError } from '../api/client';
 import ErrorState from '../components/ErrorState';
+import LanguageSelector from '../components/LanguageSelector';
 import LoadingState from '../components/LoadingState';
 import StatusBadge from '../components/StatusBadge';
+import { useTranslation } from '../i18n/LanguageContext';
 import type { ApiError, ProjectResponse } from '../types/project';
 import { WORKSPACE_MODULES } from '../types/workspace';
 import './ProjectWorkspaceLayout.css';
@@ -62,10 +64,12 @@ export default function ProjectWorkspaceLayout() {
       ? state
       : { projectId, attempt, phase: 'loading' };
 
+  const { t } = useTranslation();
+
   if (view.phase === 'loading') {
     return (
       <div className="workspace-state container">
-        <LoadingState title="Loading project…" />
+        <LoadingState title={t('workspace.loadingProject', 'Loading project…')} />
       </div>
     );
   }
@@ -74,12 +78,12 @@ export default function ProjectWorkspaceLayout() {
     return (
       <div className="workspace-state container">
         <ErrorState
-          title="Could not load this project"
+          title={t('workspace.couldNotLoad', 'Could not load this project')}
           message={view.error.message}
           onRetry={() => setAttempt((value) => value + 1)}
           action={
             <Link className="btn btn--secondary btn--normal" to="/projects">
-              Back to My Projects
+              {t('common.back', 'Back to My Projects')}
             </Link>
           }
         />
@@ -89,13 +93,21 @@ export default function ProjectWorkspaceLayout() {
 
   const { project } = view;
 
+  const getModuleLabel = (segment: string, fallback: string) => {
+    const key = segment === '3d' ? 'interactive3d' : segment;
+    return t(`workspace.tabs.${key}`, fallback);
+  };
+
   return (
     <div className="workspace">
       <header className="workspace-header">
         <div className="container workspace-header__inner">
-          <Link className="workspace-back" to="/projects">
-            ← Back to projects
-          </Link>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Link className="workspace-back" to="/projects">
+              {t('workspace.backToProjects', '← Back to projects')}
+            </Link>
+            <LanguageSelector />
+          </div>
           <div className="workspace-header__title">
             <h1>{project.name}</h1>
             <StatusBadge status={project.status} />
@@ -116,13 +128,13 @@ export default function ProjectWorkspaceLayout() {
                 isActive ? 'workspace-nav__link is-active' : 'workspace-nav__link'
               }
             >
-              <span>{module.navLabel}</span>
+              <span>{getModuleLabel(module.segment, module.navLabel)}</span>
               {module.placeholder && (
                 <span
                   className="workspace-nav__marker"
                   title="Coming soon — not implemented in Base-v1"
                 >
-                  coming soon
+                  {t('workspace.comingSoon', 'coming soon')}
                 </span>
               )}
             </NavLink>

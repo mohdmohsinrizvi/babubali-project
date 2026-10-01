@@ -5,6 +5,7 @@ import { toApiError } from '../api/client';
 import Button from '../components/Button';
 import FormField from '../components/FormField';
 import PageHeader from '../components/PageHeader';
+import { useTranslation } from '../i18n/LanguageContext';
 import { CONSTRUCTION_TYPES, type ProjectRequest } from '../types/project';
 import './CreateProjectPage.css';
 
@@ -101,6 +102,7 @@ function validate(values: FormValues): Record<string, string> {
 
 export default function CreateProjectPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
@@ -157,11 +159,11 @@ export default function CreateProjectPage() {
   return (
     <div className="create-page">
       <PageHeader
-        title="New Project"
-        subtitle="Add a project to start planning. All fields marked with * are required."
+        title={t('nav.newProject', 'New Project')}
+        subtitle={t('nav.footerTagline', 'Add a project to start planning. All fields marked with * are required.')}
         actions={
           <Link className="btn btn--secondary btn--normal" to="/projects">
-            Cancel
+            {t('common.cancel', 'Cancel')}
           </Link>
         }
       />
@@ -175,7 +177,7 @@ export default function CreateProjectPage() {
 
         <div className="project-form__grid">
           <FormField
-            label="Project Name"
+            label={t('workspace.details.name', 'Project Name')}
             htmlFor="project-name"
             required
             error={fieldErrors.name}
@@ -195,7 +197,7 @@ export default function CreateProjectPage() {
             />
           </FormField>
 
-          <FormField label="State" htmlFor="project-state" required error={fieldErrors.state}>
+          <FormField label={t('workspace.details.state', 'State')} htmlFor="project-state" required error={fieldErrors.state}>
             <input
               id="project-state"
               name="state"
@@ -210,7 +212,7 @@ export default function CreateProjectPage() {
             />
           </FormField>
 
-          <FormField label="District" htmlFor="project-district" required error={fieldErrors.district}>
+          <FormField label={t('workspace.details.district', 'District')} htmlFor="project-district" required error={fieldErrors.district}>
             <input
               id="project-district"
               name="district"
@@ -225,7 +227,7 @@ export default function CreateProjectPage() {
             />
           </FormField>
 
-          <FormField label="City" htmlFor="project-city" required error={fieldErrors.city}>
+          <FormField label={t('workspace.details.city', 'City')} htmlFor="project-city" required error={fieldErrors.city}>
             <input
               id="project-city"
               name="city"
@@ -241,7 +243,7 @@ export default function CreateProjectPage() {
           </FormField>
 
           <FormField
-            label="Construction Type"
+            label={t('workspace.details.constructionType', 'Construction Type')}
             htmlFor="project-construction-type"
             required
             error={fieldErrors.constructionType}
@@ -264,7 +266,7 @@ export default function CreateProjectPage() {
           </FormField>
 
           <FormField
-            label="Land Area (sq ft)"
+            label={`${t('workspace.details.landArea', 'Land Area')} (${t('common.sqFt', 'sq ft')})`}
             htmlFor="project-land-area"
             required
             error={fieldErrors.landAreaSqFt}
@@ -285,7 +287,7 @@ export default function CreateProjectPage() {
           </FormField>
 
           <FormField
-            label="Built-up Area (sq ft)"
+            label={`${t('workspace.details.builtUpArea', 'Built-up Area')} (${t('common.sqFt', 'sq ft')})`}
             htmlFor="project-built-up-area"
             required
             error={fieldErrors.builtUpAreaSqFt}
@@ -306,7 +308,7 @@ export default function CreateProjectPage() {
           </FormField>
 
           <FormField
-            label="Expected Floors"
+            label={t('workspace.details.floors', 'Expected Floors')}
             htmlFor="project-floor-count"
             required
             error={fieldErrors.floorCount}
@@ -326,7 +328,7 @@ export default function CreateProjectPage() {
           </FormField>
 
           <FormField
-            label="Budget (optional)"
+            label={`${t('workspace.details.budget', 'Budget')} (₹)`}
             htmlFor="project-budget"
             error={fieldErrors.budget}
             hint="Leave blank if the budget is not decided yet."
@@ -348,10 +350,10 @@ export default function CreateProjectPage() {
 
         <div className="project-form__actions">
           <Button type="submit" loading={submitting}>
-            {submitting ? 'Saving…' : 'Create Project'}
+            {submitting ? t('common.loading', 'Saving…') : t('nav.newProject', 'Create Project')}
           </Button>
           <Link className="btn btn--secondary btn--normal" to="/projects">
-            Cancel
+            {t('common.cancel', 'Cancel')}
           </Link>
         </div>
       </form>

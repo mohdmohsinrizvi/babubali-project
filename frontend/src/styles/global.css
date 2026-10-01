@@ -112,3 +112,22 @@ h3 {
   border-color: #fde68a;
 }
 
+/* Multilingual & RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] body {
+  font-family: 'Noto Nastaliq Urdu', 'Urdu Typesetting', 'Jameel Noori Nastaleeq', 'Segoe UI', Tahoma, sans-serif;
+}
+
+[dir="rtl"] .custom-table th,
+[dir="rtl"] .custom-table td {
+  text-align: right;
+}
+
+[dir="rtl"] .plan-card-actions {
+  flex-direction: row-reverse;
+}
+
